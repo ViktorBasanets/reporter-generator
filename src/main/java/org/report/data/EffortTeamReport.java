@@ -13,12 +13,7 @@ public class EffortTeamReport {
 
     private double remainingEffort;
 
-    private final double storyPoint;
-
-    private EffortTeamReport() {
-        this.storyPoint = Double.parseDouble(Optional.ofNullable(System.getProperty("STORY_POINT"))
-            .orElse(DEFAULT_STORY_POINT));
-    }
+    private EffortTeamReport() {}
 
     public String getTeam() {
         return team;
@@ -30,6 +25,10 @@ public class EffortTeamReport {
 
     public double getRemainingEffort() {
         return remainingEffort;
+    }
+
+    private double getStoryPoint() {
+        return Double.parseDouble(Optional.ofNullable(System.getProperty("STORY_POINT")).orElse(DEFAULT_STORY_POINT));
     }
 
     public static Builder builder() {
@@ -48,7 +47,7 @@ public class EffortTeamReport {
 
         public Builder totalEffort(List<EffortTeamData> dataList) {
             EffortTeamReport.this.totalEffort = dataList.stream()
-                .mapToDouble(data -> data.getOriginalEstimate() / storyPoint)
+                .mapToDouble(data -> data.getOriginalEstimate() / getStoryPoint())
                 .sum();
             return this;
         }
@@ -57,7 +56,7 @@ public class EffortTeamReport {
             EffortTeamReport.this.remainingEffort = dataList.stream()
                 .filter(issue -> !issue.getStatus().equals(Status.CLOSED_COMPLETE.value())
                     && !issue.getStatus().equals(Status.CLOSED_REJECTED.value()))
-                .mapToDouble(issue -> issue.getOriginalEstimate() / storyPoint)
+                .mapToDouble(issue -> issue.getOriginalEstimate() / getStoryPoint())
                 .sum();
             return this;
         }
