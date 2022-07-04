@@ -2,34 +2,34 @@ package org.report.client;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import org.report.data.Team;
-import org.report.service.DataAdapter;
-import org.report.service.FileReader;
+import org.report.service.Adapter;
+import org.report.service.Reader;
 import org.report.service.Reporter;
 
-public class ReportGenerator<T, R> {
+public class ReportGenerator<T, R, L> {
 
-    private final FileReader reader;
-    private final Map<String, DataAdapter<T>> adapters;
-    private final Map<String, Reporter<T, R>> reporters;
+    private final Reader<L> reader;
+    private final Adapter<L, T> adapter;
+    private final Reporter<T, R> reporter;
 
-    public ReportGenerator(FileReader rdr, Map<String, DataAdapter<T>> adapters, Map<String, Reporter<T, R>> reporters) {
-        this.reader = rdr;
-        this.adapters = adapters;
-        this.reporters = reporters;
+    public ReportGenerator(Reader<L> reader, Adapter<L, T> adapter, Reporter<T, R> reporter) {
+
+        this.reader = reader;
+        this.adapter = adapter;
+        this.reporter = reporter;
     }
 
     public List<R> generateReport() {
         var lines = reader.read();
-        adapters.forEach((team, adapter) -> {
-            Reporter<T, R> reporter = reporters.get(team);
-            adapter.adapt(lines).forEach(reporter::addRow);
-        });
+
+        Arrays.stream(Team.values())
+            .flatMap(team -> adapter.adapt(team, lines).stream())
+            .forEach(reporter::addRow);
 
         return Arrays.stream(Team.values())
-            .map(team -> reporters.get(team.value()).createReport())
+            .map(reporter::createReport)
             .collect(Collectors.toList());
     }
 }

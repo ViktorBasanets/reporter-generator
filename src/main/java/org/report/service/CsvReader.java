@@ -1,4 +1,4 @@
-package org.report.service.reader;
+package org.report.service;
 
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReaderBuilder;
@@ -8,13 +8,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import org.report.service.FileReader;
 
-public class CsvFileReader implements FileReader {
+public class CsvReader implements Reader<String[]> {
 
     private final String path;
 
-    public CsvFileReader(String path) {
+    public CsvReader(String path) {
         this.path = path;
     }
 
