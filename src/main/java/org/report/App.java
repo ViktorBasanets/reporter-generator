@@ -5,6 +5,7 @@ import org.report.client.ReportGenerator;
 import org.report.data.Column;
 import org.report.service.CsvReader;
 import org.report.service.EffortTeamAdapter;
+import org.report.service.EffortTeamMapper;
 import org.report.service.EffortTeamReporter;
 
 public class App {
@@ -17,7 +18,7 @@ public class App {
 
         System.out.println(Column.toRow(Column.TEAM_EFFORT, Column.TOTAL_EFFORT, Column.REMAINING_EFFORT));
 
-        new ReportGenerator<>(new CsvReader(path), new EffortTeamAdapter(), new EffortTeamReporter())
+        new ReportGenerator<>(new CsvReader(path), new EffortTeamAdapter(), new EffortTeamMapper(), new EffortTeamReporter())
             .generateReport()
             .forEach(System.out::println);
     }

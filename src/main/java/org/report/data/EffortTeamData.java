@@ -1,5 +1,6 @@
 package org.report.data;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class EffortTeamData {
@@ -16,6 +17,13 @@ public class EffortTeamData {
 
     public String getTeam() {
         return team;
+    }
+
+    public static Team mapTo(String team) {
+        return Arrays.stream(Team.values())
+            .filter(t -> t.value().equals(team))
+            .findFirst()
+            .orElse(Team.NONAME);
     }
 
     private EffortTeamData(){}

@@ -1,10 +1,7 @@
 package org.report.service;
 
-import org.report.data.Team;
+import java.util.List;
 
 public interface Reporter<T, R> {
-
-    void addRow(T row);
-
-    R createReport(Team team);
+    List<R> reports(List<List<T>> data);
 }

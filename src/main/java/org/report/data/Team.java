@@ -5,7 +5,8 @@ public enum Team {
     LONDON("London"),
     NY("NY"),
     KYIV("Kiev"),
-    INDIA("India");
+    INDIA("India"),
+    NONAME("Noname");
 
     Team(String value) {
         this.value = value;

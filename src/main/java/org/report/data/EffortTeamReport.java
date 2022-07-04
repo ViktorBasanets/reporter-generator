@@ -1,11 +1,6 @@
 package org.report.data;
 
-import java.util.List;
-import java.util.Optional;
-
 public class EffortTeamReport {
-
-    private static final String DEFAULT_STORY_POINT = "28800";
 
     private String team;
 
@@ -27,10 +22,6 @@ public class EffortTeamReport {
         return remainingEffort;
     }
 
-    private double getStoryPoint() {
-        return Double.parseDouble(Optional.ofNullable(System.getProperty("STORY_POINT")).orElse(DEFAULT_STORY_POINT));
-    }
-
     public static Builder builder() {
         return new EffortTeamReport().new Builder();
     }
@@ -45,19 +36,13 @@ public class EffortTeamReport {
             return this;
         }
 
-        public Builder totalEffort(List<EffortTeamData> dataList) {
-            EffortTeamReport.this.totalEffort = dataList.stream()
-                .mapToDouble(data -> data.getOriginalEstimate() / getStoryPoint())
-                .sum();
+        public Builder totalEffort(double totalEffort) {
+            EffortTeamReport.this.totalEffort = totalEffort;
             return this;
         }
 
-        public Builder remainingEffort(List<EffortTeamData> dataList) {
-            EffortTeamReport.this.remainingEffort = dataList.stream()
-                .filter(issue -> !issue.getStatus().equals(Status.CLOSED_COMPLETE.value())
-                    && !issue.getStatus().equals(Status.CLOSED_REJECTED.value()))
-                .mapToDouble(issue -> issue.getOriginalEstimate() / getStoryPoint())
-                .sum();
+        public Builder remainingEffort(double remainingEffort) {
+            EffortTeamReport.this.remainingEffort = remainingEffort;
             return this;
         }
 

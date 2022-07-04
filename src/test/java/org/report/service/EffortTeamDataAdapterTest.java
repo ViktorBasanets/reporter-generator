@@ -15,7 +15,7 @@ public class EffortTeamDataAdapterTest {
         var testLines = List.of(testHeader, testLine1);
 
         var testAdapter = new EffortTeamAdapter();
-        var actualResult = testAdapter.adapt(Team.LONDON, testLines);
+        var actualResult = testAdapter.adapt(testLines);
 
         assertEquals(1, actualResult.size());
         assertEquals("Open", actualResult.get(0).getStatus());
@@ -30,7 +30,7 @@ public class EffortTeamDataAdapterTest {
         var testLines = List.of(testHeader, testLine1);
 
         var testAdapter = new EffortTeamAdapter();
-        var actualResult = testAdapter.adapt(Team.LONDON, testLines);
+        var actualResult = testAdapter.adapt(testLines);
 
         assertEquals(0, actualResult.size());
     }
@@ -42,8 +42,8 @@ public class EffortTeamDataAdapterTest {
         var testLines = List.of(testHeader, testLine1);
 
         var testAdapter = new EffortTeamAdapter();
-        var actualResult = testAdapter.adapt(Team.NY, testLines);
+        var actualResult = testAdapter.adapt(testLines);
 
-        assertEquals(0, actualResult.size());
+        assertEquals(1, actualResult.size());
     }
 }
